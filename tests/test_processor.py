@@ -1,9 +1,7 @@
 from pprint import pprint
 
-from processor import Processor
+from linkedin_scraper.processor import Processor
 import json
-
-from scraper import Scraper
 
 
 class TestProcessor:
@@ -12,9 +10,8 @@ class TestProcessor:
 
     def get_test_metadata_json(self):
         if self.metadata_json is None:
-            with open("jobs_metadata.json", 'r') as meta:
+            with open("tests/jobs_metadata.json", 'r') as meta:
                 self.metadata_json = json.load(meta)
-
         return self.metadata_json
 
     def get_test_metadata_job(self):

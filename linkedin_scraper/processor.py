@@ -1,9 +1,11 @@
 import copy
+from typing import List, Dict
 
 
 class Processor:
 
-    def extract_raw_jobs_metadata_list(self, jobs_meta: dict) -> list[dict]:
+    def extract_raw_jobs_metadata_list(self, jobs_meta: dict) -> list:
+        print(jobs_meta)
         return [
             meta
             for meta in jobs_meta["included"]
@@ -33,7 +35,7 @@ class Processor:
     def flatten(self, l):
         return [item for sublist in l for item in sublist]
 
-    def process_jobs_for_ingestion(self, all_jobs_meta: list[dict]) -> list[dict]:
+    def process_jobs_for_ingestion(self, all_jobs_meta: List[Dict]) -> List[Dict]:
         job_postings = [
             self.extract_raw_jobs_metadata_list(raw_job_meta)
             for raw_job_meta in all_jobs_meta

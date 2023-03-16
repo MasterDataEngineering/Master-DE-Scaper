@@ -1,19 +1,20 @@
 from abc import abstractmethod
+from typing import List
 
-from linkedin_custom_search import LinkedinSearchInterface
-from processor import Processor
+from linkedin_scraper.linkedin_custom_search import LinkedinSearchInterface
+from linkedin_scraper.processor import Processor
 
 
 class ScraperConfigInterface:
 
     @property
     @abstractmethod
-    def locations_to_scrape(self) -> list[str]:
+    def locations_to_scrape(self) -> List[str]:
         pass
 
     @property
     @abstractmethod
-    def job_titles_to_scrape(self) -> list[str]:
+    def job_titles_to_scrape(self) -> List[str]:
         pass
 
     @property
@@ -30,7 +31,7 @@ class ScraperConfigInterface:
 class ScraperConfig(ScraperConfigInterface):
 
     @property
-    def locations_to_scrape(self) -> list[str]:
+    def locations_to_scrape(self) -> List[str]:
         return [
             "United Kingdom",
             "Netherlands",
@@ -44,7 +45,7 @@ class ScraperConfig(ScraperConfigInterface):
         ]
 
     @property
-    def job_titles_to_scrape(self) -> list[str]:
+    def job_titles_to_scrape(self) -> List[str]:
         return [
             "Data Engineer",
             "Data Scientist",
@@ -90,7 +91,7 @@ class Scraper:
     def calculate_final_offset(self, total: int, next_start: int) -> int:
         return total - next_start
 
-    def generate_pagination_plan(self, initial_pagination: dict) -> list[dict]:
+    def generate_pagination_plan(self, initial_pagination: dict) -> List[dict]:
         pagination_plan = [initial_pagination]
 
         loops = int(initial_pagination["total"] / initial_pagination["count"])
@@ -134,11 +135,11 @@ class Scraper:
 
         return [first_response]
 
-    def fetch_and_format_jobs(self, search_keyword: str, location_name: str) -> list[dict]:
+    def fetch_and_format_jobs(self, search_keyword: str, location_name: str) -> List[dict]:
         jobs = self.fetch_all_jobs_for_keyword(search_keyword, location_name)
         return self.processor.process_jobs_for_ingestion(jobs)
 
-    def fetch_jobs_meta_by_scraping_plan(self) -> list:
+    def fetch_jobs_meta_by_scraping_plan(self) -> List:
         jobs = [
             self.fetch_all_jobs_for_keyword(search_keyword=conf["job_title"], location_name=conf["location_name"])
             for conf in self.scraper_config.scraping_plan
@@ -150,7 +151,7 @@ class Scraper:
         print(f"Fetching Job Description for job posting {job_id}")
         return self.linkedin_interface.fetch_job_description(job_id)
 
-    def _fetch_job_descriptions(self, jobs_meta: list):
+    def _fetch_job_descriptions(self, jobs_meta: List):
         return [
             self._fetch_job_descr_with_logging(meta["job_id"])
             for meta in jobs_meta

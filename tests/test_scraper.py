@@ -1,8 +1,9 @@
 from pprint import pprint
+from typing import List
 
-from linkedin_custom_search import LinkedinSearchInterface
-from processor import Processor
-from scraper import Scraper, ScraperConfigInterface
+from linkedin_scraper.linkedin_custom_search import LinkedinSearchInterface
+from linkedin_scraper.processor import Processor
+from linkedin_scraper.scraper import Scraper, ScraperConfigInterface
 from unittest.mock import MagicMock, call
 
 
@@ -68,14 +69,14 @@ class MockLinkedinSearchWithMagicMock(LinkedinSearchInterface):
 class MockScaperConfig(ScraperConfigInterface):
 
     @property
-    def locations_to_scrape(self) -> list[str]:
+    def locations_to_scrape(self) -> List[str]:
         return [
             "United Kingdom",
             "Netherlands",
         ]
 
     @property
-    def job_titles_to_scrape(self) -> list[str]:
+    def job_titles_to_scrape(self) -> List[str]:
         return [
             "Data Engineer",
             "Data Scientist",
