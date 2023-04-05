@@ -67,17 +67,32 @@ class ScraperConfig(ScraperConfigInterface):
         ]
 
 
+class ScraperConfig2(ScraperConfigInterface):
+
+    @property
+    def locations_to_scrape(self) -> List[str]:
+        return [
+            "Italy"
+        ]
+
+    @property
+    def job_titles_to_scrape(self) -> List[str]:
+        return [
+            "Data Engineer"
+        ]
 
 
 class Scraper:
 
-    def __init__(self, linkedin_interface: LinkedinSearchInterface, processor: Processor, config: ScraperConfigInterface):
+    def __init__(self, linkedin_interface: LinkedinSearchInterface, processor: Processor,
+                 config: ScraperConfigInterface):
         self.linkedin_interface = linkedin_interface
         self.processor = processor
         self.scraper_config = config
 
     def calculate_next_start(self, current_pagination: dict) -> int:
-        return current_pagination["start"] + self.calculate_correct_pagination_offset(current_pagination, current_pagination["start"])
+        return current_pagination["start"] + self.calculate_correct_pagination_offset(current_pagination,
+                                                                                      current_pagination["start"])
 
     def calculate_correct_pagination_offset(self, current_pagination: dict, next_start: int) -> int:
         total = current_pagination["total"]
@@ -107,8 +122,9 @@ class Scraper:
 
         return pagination_plan
 
-    def _fetch_with_logging(self, search_keyword:str, pagination_start: int, pagination_count: int, location_name: str):
-        print("Fetching", pagination_start, "to", pagination_start+pagination_count)
+    def _fetch_with_logging(self, search_keyword: str, pagination_start: int, pagination_count: int,
+                            location_name: str):
+        print("Fetching", pagination_start, "to", pagination_start + pagination_count)
         return self.linkedin_interface.job_search(search_keyword, pagination_start, pagination_count, location_name)
 
     def fetch_all_jobs_for_keyword(self, search_keyword: str, location_name: str):
@@ -160,5 +176,3 @@ class Scraper:
     def fetch_job_descriptions_by_scraping_plan(self):
         jobs_meta = self.fetch_jobs_meta_by_scraping_plan()
         return self._fetch_job_descriptions(jobs_meta)
-
-
