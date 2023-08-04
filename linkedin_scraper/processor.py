@@ -5,7 +5,6 @@ from typing import List, Dict
 class Processor:
 
     def extract_raw_jobs_metadata_list(self, jobs_meta: dict) -> list:
-        print(jobs_meta)
         return [
             meta
             for meta in jobs_meta["included"]

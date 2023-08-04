@@ -1,8 +1,8 @@
 from abc import abstractmethod
 from typing import List
 
-from linkedin_scraper.linkedin_custom_search import LinkedinSearchInterface
-from linkedin_scraper.processor import Processor
+from linkedin_custom_search import LinkedinSearchInterface
+from processor import Processor
 
 
 class ScraperConfigInterface:
