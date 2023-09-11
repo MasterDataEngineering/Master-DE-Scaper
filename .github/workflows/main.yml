@@ -1,0 +1,45 @@
+name: update ec2
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+    
+jobs:
+  check-instance-status:
+    runs-on: ubuntu-latest
+    outputs:
+      INSTANCE_STATE: ${{ steps.check-status.outputs.INSTANCE_STATE }}
+    steps:
+      - name: Check status
+        id: check-status
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          INSTANCE_STATE=$(aws ec2 describe-instance-status --include-all-instances --instance-id i-01933dcba1a6a289a --output text | grep -o 'pending\|running\|shutting-down\|terminated\|stopping\|stopped')
+          echo "INSTANCE_STATE=$INSTANCE_STATE" >> "$GITHUB_OUTPUT"
+  turn-on-ec2:
+    runs-on: ubuntu-latest
+    needs: check-instance-status
+    if: ${{ needs.check-instance-status.outputs.INSTANCE_STATE == 'stopped' }}
+    steps:
+      - name: Start AWS EC2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+          AWS_EC2_INSTANCE_ID: ${{secrets.AWS_EC2_INSTANCE_ID}}
+        run: aws ec2 start-instances --instance-ids $AWS_EC2_INSTANCE_ID
+
+  update_ec2:
+    runs-on: ubuntu-latest
+    needs: turn-on-ec2
+    steps:
+       - name: Run update script on ec2
+         run: ssh root@MachineB 'bash /deploy/update_scripts/update_scraper.sh’ 
+
+
+      
