@@ -39,7 +39,7 @@ jobs:
     needs: turn-on-ec2
     steps:
        - name: Run update script on ec2
-         run: ssh root@MachineB 'bash /deploy/update_scripts/update_scraper.sh’ 
+         run: ssh -i /home/peppe/master-env/repo/Master-DE-Scaper/airflow-instance.pem ec2-user@15.188.122.69 'bash /deploy/update_scripts/update_scraper.sh'
 
 
       
