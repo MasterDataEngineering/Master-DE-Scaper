@@ -38,6 +38,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
        - name: Run update script on ec2
-         run: echo ${{ secrets.AWS_KEY }} 
+         run: echo "ciao"
 
       
