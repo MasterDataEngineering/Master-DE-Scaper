@@ -36,7 +36,6 @@ jobs:
 
   update_ec2:
     runs-on: ubuntu-latest
-    needs: turn-on-ec2
     steps:
        - name: Run update script on ec2
          run: ssh ec2-user@15.188.122.69 'bash /deploy/update_scripts/update_scraper.sh'
