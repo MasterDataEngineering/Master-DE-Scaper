@@ -38,6 +38,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
        - name: Run update script on ec2
-         run: echo "${{secrets.AWS_KEY}}"
+         run: echo "${{secrets.AWS_KEY}}" | ssh -i /dev/stdin ec2-user@15.188.122.69 "bash deploy/update_scripts/update_scraper.sh"
 
       
