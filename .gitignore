@@ -1,2 +1,2 @@
 *.env
-airflow-instance.pem
+*.airflow-instance.pem
