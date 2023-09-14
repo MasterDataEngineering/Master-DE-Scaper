@@ -37,4 +37,4 @@ jobs:
   update_ec2:
     runs-on: ubuntu-latest
     steps:
-         - run: echo ${{ secrets.AWS_KEY }}
+         - run: echo "${{ secrets.AWS_KEY }}"
