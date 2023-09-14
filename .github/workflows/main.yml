@@ -37,30 +37,6 @@ jobs:
   update_ec2:
     runs-on: ubuntu-latest
     steps:
-         - run: echo "MIIEowIBAAKCAQEAjFa6aj+iJbvAKL4hVg0i/AInOYipc19vCRgwfcS3J3aUEVPa
-3ZKUJyfwTjtbXewZrfbwc5WvY7wuXaBI2u0gDQJdb23ZBfc0lrii1r6ovW+p7qSi
-ejb9SZh3T/c9lf9gGpGtgRDxvl1/ajmJ4iwQdyCTiWGvMjO79QMO6O84atlx/QY4
-pkH1Y/ojqFYk59mGc5jw/g4Ne2tUC2Te0YbFhLCMvYGTvW36lWx9DesQuwC1Au05
-b/Y4LqLkjq9aiblvNF3jvWBojkkbPZ7wQGKHO0nFEZCNQO8Xb5I2HdC3/LER0QUj
-2DIWyC90DCOzsfF0PRz0j7XY6rcKdcqgoFYlPQIDAQABAoIBAFwUK4u65LDNV29k
-EItdYy7mWsYtHMFORJQ7AtYCVAnYi54y3s+ydPKcCdfKqlAdsVurQmkUNVfDCMj1
-edfq7bSbcKLD+Dkp0Z9y1aUAw8ZHlb+21cRKgDXhi6c0GXxpaq0EGEsuyu6Ueh1A
-U2/KaaNABI2HQmQ1/YTs1MOQ8ftoY54XOqI2rkwQuGmgwTLrKK6ZUsvGbIO57pod
-di79NPmVMlAJbHlhJySZhAEPaA1LCOrdCsn1niY15igILWfyjsnrbfrnoXgW/NvM
-mAecLp1lrwQrNlo3YfUiIixV5M0Sd2IxolkZfhMFTKkWheAjrH4Rn1bYw+cnpmmY
-CpIrsSECgYEA4/6o04bA4MIrx5TbBrMFeid9aqUtonhX+f6y2Er1jBh5rbdaJWgR
-YGoG+c+JRfVCdjQweRPWewJEiMrmzIdDCTdwlx6jXthsoY9yqsubM5GhTP1H8zRM
-Dhi5gZNP2HQdjkByETW8S2dcIDv2UgpXAmYqntW4W1pxsshx5G4Ti2sCgYEAnZO1
-gJiE1xSYXt9GF1+q4EdVMaJoJ+Q40jDSH/rm7lIZ8BdfgoLQGMciyEnvbkx20Gso
-1UZCpkoERKFDWs8Se4lqg39Rd9PpZpCijmWnzsV+rFDmkYoN++GcIG1nASQiIgrs
-rnTz3tTHhH+emWMnHCWLPGK8OVAwr7vVr5wBI/cCgYABrifKX0zemy+9adBvbTRW
-ISJgfdUnRGHJmuHwjCThInELIbXNXsX6Au4IO0pUtKkHu/y7d7T19R9SLsSir0CE
-Od9fjb9AfLHYQvliXtvG9oTMz3UPSsxgsjfzx4UoIDrziHAOxmmb2KgqKKb5FdBs
-WRppT0PrkHAUFDwapeEI/wKBgFmA8eJWP3YPa7DPr3dNTrjPq7NipTiraB7zvhaO
-JCeQGM2H6ScveFXqnnYXkNkcs4wUof/qRadAeYYl9yUYY04qMob4hWTDyFoKo1qw
-oQ1Qnm/wD9bxDJpafpzop049oOmnPOKm6XJTd/RprMNBT5CsPpcRGgqP4ueekHSL
-7xXnAoGBAKZ8oBdUSi60UcYxVChekv8iaCjcw5eSr08d/1IgK3FhPF7IUG3uS0Nq
-Se/Wm/5lmNt/cMJdpL95W3fVcI+wftMWe//zBnggrVUM4XjgSb0xv3CFaF/L2Dnr
-vb9u1rnOoQSrLkErKOLsvtndrHny5DvNVx1MQYpobwa8dteJ03+Ny" | tr -d '[:space:]' > ~/key.pem && chmod 400 ~/key.pem
+         - run: echo "${{ secrets.AWS_KEY }}" | tr -d '[:space:]' > ~/key.pem && chmod 400 ~/key.pem
          - run: cat ~/key.pem && ssh -i ~/key.pem ec2-user@15.188.122.69 "bash deploy/update_scripts/update_scraper.sh"
 
