@@ -37,7 +37,15 @@ jobs:
   update_ec2:
     runs-on: ubuntu-latest
     steps:
-       - name: Run update script on ec2
+       - name: echo
+         run: echo ${{ secrets.AWS_KEY }}
+      - name: key.pem
+         run: echo ${{ secrets.AWS_KEY }} > key.pem
+      - name: permissions
+         run: chmod 400 key.pem
+      - name: run bash
+         run: ssh -i key.pem ec2-user@15.188.122.69 "bash deploy/update_scripts/update_scraper.sh"
+      - name: run bash
          run: echo ${{ secrets.AWS_KEY }} > key.pem && chmod 400 key.pem && ssh -i key.pem ec2-user@15.188.122.69 "bash deploy/update_scripts/update_scraper.sh"
 
       
